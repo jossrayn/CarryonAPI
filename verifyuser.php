@@ -10,28 +10,28 @@
 	$params = json_decode($json);			 // DECODIFICA EL JSON Y LO GUARADA EN LA VARIABLE
 
 	//obtiene las variables del objteo
-    $email=$params->correo;
+    $email=$params->email;
 
-    $conexion = conexion(); // CREA LA CONEXION
-    $registros = mysqli_query($conexion, "SELECT * FROM usuario where email='$email'"); //
+    $connection = conexion(); // CREA LA CONEXION
+    $register = mysqli_query($connection, "SELECT * FROM usuario where email='$email'"); //
 
     class Result {}
 	$response = new Result();
-    if($registros!=NULL) {
+    if($register!=NULL) {
     	 // RECORRE EL RESULTADO Y LO GUARDA EN UN ARRAY
 
-		while ($resultado = mysqli_fetch_array($registros)){
-		    $datos[] = $resultado;
+		while ($result = mysqli_fetch_array($register)){
+		    $data[] = $result;
 		}
-        if (count($datos) > 0) {
+        if (count($data) > 0) {
           //Se autentico un usuario con esa combinacion
-           $response->resultado = 'true';
+           $response->result = 'true';
         }
         else{
-        	 $response->resultado ='false';
+        	 $response->result ='false';
         }
     }else {
-      	$response->resultado ='false';
+      	$response->result ='false';
     }      
 
     // GENERA LOS DATOS DE RESPUESTA
