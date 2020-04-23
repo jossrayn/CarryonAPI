@@ -10,63 +10,40 @@
 
 
     @$email=$params->email;
-    @$contra=$params->contra;
-    @$tipoUser=$params->tipo;
+    @$password=$params->password;
+    @$userType=$params->type;
   
 
-    $conexion = conexion(); // CREA LA CONEXION
+    $conection = conexion(); // CREA LA CONEXION
 
     class Result {}
     $response = new Result();
-    //se validan los datos
-    if(validarDatosNoNulos($email,$contra)){
-        if(filter_var($email, FILTER_VALIDATE_EMAIL)){
-            $registros = mysqli_query($conexion, "SELECT * FROM usuario where email='$email' and contra='$contra' and tipoUsuario = '$tipoUser'");
-            if ($registros != NULL){
-               // RECORRE EL RESULTADO Y LO GUARDA EN UN ARRAY
-                $cont=0;
-                while ($resultado = mysqli_fetch_array($registros)){
-                    $datos[] = $resultado;
-                    $cont= $cont+1;
-                }
-                if($cont>0){
-                    $response->resultado ='ok';
-                    $response->mensaje ='Usuario autenticado';
-                    $response->nombre = json_encode($datos[0][2]);
-                    $response->apellido = json_encode($datos[0][3]);
-                }
-                else{
-                    $response->resultado ='Fail';
-                    $response->mensaje ='Usuario on contraseña incorrectos';
-                }
+    //se validan los data
+    if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+        $registers = mysqli_query($conection, "SELECT * FROM usuario where correo='$email' and contrasena='$password' and tipo = '$userType'");
+        if ($register != NULL){
+            // RECORRE EL result Y LO GUARDA EN UN ARRAY
+            $cont=0;
+            while ($result = mysqli_fetch_array($registers)){
+                $data[] = $result;
+                $cont= $cont+1;
+            }
+            if($cont>0){
+                $response->result ='Ok';
+                $response->mensaje ='Autenticado';
+                $response->nombre = json_encode($data[0][2]);
+                $response->apellido = json_encode($data[0][3]);
             }
             else{
-                $response->resultado ='Fail';
-                $response->mensaje ='Usuario on contraseña incorrectos';
-                //$response->test=mysqli_error($conexion);
+                $response->result ='Fail';
+                $response->mensaje ='Contraseña incorrectos';
             }
-        }else{
-            $response->resultado ='Fail';
-            $response->mensaje ='El correo no es valido';
-        }
     }else{
-        $response->resultado ='Fail';
-        $response->mensaje ='Complete todos los datos';
+        $response->result ='Fail';
+        $response->mensaje ='Correo no es valido';
     }
 
-
-    $json = json_encode($response); // GENERA EL JSON CON LOS DATOS OBTENIDOS
+    $json = json_encode($response); // GENERA EL JSON CON LOS data OBTENIDOS
     echo $json; // MUESTRA EL JSON GENERADO
-    
-
-   
-  //vetrifica que los datos no sean nulos
-    function validarDatosNoNulos($parm_email,$param_pass){
-        if(!empty($parm_email)&& !empty($param_pass)){
-            return True;
-        }else{
-            return False;
-        }
-    }
 
 ?>
