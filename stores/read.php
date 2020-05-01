@@ -13,7 +13,7 @@ $database = new Database();
 $db = $database->getConnection();
   
 // initialize object
-$store = new Store($db);
+$store = new Stores($db);
   
 // read products will be here
 // query products
@@ -61,6 +61,6 @@ else{
   
     // tell the user no products found
     echo json_encode(
-        array("message" => "No products found.")
+        array("message" => "No stores found.")
     );
 }

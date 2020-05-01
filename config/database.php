@@ -1,21 +1,25 @@
 <?php
 class Database{
-
+  
+    // specify your own database credentials
+    private $host = "localhost";
+    private $db_name = "carryoncr";
+    private $username = "root";
+    private $password = "2016131865";
     public $conn;
-
+  
     // get the database connection
     public function getConnection(){
-
+  
         $this->conn = null;
-
+  
         try{
-            $conn = mysqli_init();
-            mysqli_ssl_set($conn,NULL,NULL, "BaltimoreCyberTrustRoot.crt.pem", NULL, NULL) ; 
-            mysqli_real_connect($conn,"localhost","carryoncr", 3306, MYSQLI_CLIENT_SSL,"root","2016131865");
+            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
+            $this->conn->exec("set names utf8");
         }catch(PDOException $exception){
             echo "Connection error: " . $exception->getMessage();
         }
-
+  
         return $this->conn;
     }
 }
