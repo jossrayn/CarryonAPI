@@ -5,7 +5,7 @@ class Database{
     private $host = "localhost";
     private $db_name = "carryoncr";
     private $username = "root";
-    private $password = "2016131865";
+    private $password = "12345";
     public $conn;
   
     // get the database connection

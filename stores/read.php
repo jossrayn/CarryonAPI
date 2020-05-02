@@ -8,24 +8,24 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/database.php';
 include_once '../objects/stores.php';
   
-// instantiate database and product object
+// instantiate database and store object
 $database = new Database();
 $db = $database->getConnection();
   
 // initialize object
 $store = new Stores($db);
   
-// read products will be here
-// query products
+// read stores will be here
+// query stores
 $stmt = $store->read();
 $num = $stmt->rowCount();
   
 // check if more than 0 record found
 if($num>0){
   
-    // products array
+    // stores array
     $stores_arr=array();
-    $stores_arr["records"]=array();
+    $stores_arr["stores"]=array();
   
     // retrieve our table contents
     // fetch() is faster than fetchAll()
@@ -38,20 +38,21 @@ if($num>0){
   
         $store_item=array(
             "mail" => $correo,
+            "password" => $contraseña,
             "name" => $nombreEstablecimiento,
-            "description" => html_entity_decode($descripcion),
+            "description" => $descripcion,
             "url" => $imagen,
             "latitude" => $latitud,
             "longitude" => $longitud
         );
   
-        array_push($stores_arr["records"], $store_item);
+        array_push($stores_arr["stores"], $store_item);
     }
   
     // set response code - 200 OK
     http_response_code(200);
   
-    // show products data in json format
+    // show stores data in json format
     echo json_encode($stores_arr);
 }
 else{
@@ -59,7 +60,7 @@ else{
     // set response code - 404 Not found
     http_response_code(404);
   
-    // tell the user no products found
+    // tell the user no stores found
     echo json_encode(
         array("message" => "No stores found.")
     );

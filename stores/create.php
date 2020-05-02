@@ -9,7 +9,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // get database connection
 include_once '../config/database.php';
   
-// instantiate product object
+// instantiate store object
 include_once '../objects/stores.php';
   
 $database = new Database();
@@ -24,18 +24,23 @@ $data = json_decode(file_get_contents("php://input"));
 if(
     !empty($data->correo) &&
     !empty($data->nombreEstablecimiento) &&
+    !empty($data->descripcion) &&
     !empty($data->imagen) &&
     !empty($data->latitud)&&
-    !empty($data->longitud)    
+    !empty($data->longitud)&&
+    !empty($data->estado)&&
+    !empty($data->contraseña)
 ){
   
     // set stores values
     $store->correo = $data->correo;
     $store->nombreEstablecimiento = $data->nombreEstablecimiento;
+    $store->descripcion = $data->descripcion;
     $store->imagen = $data->imagen;
-    $store->category_id = $data->latitud;
+    $store->latitud = $data->latitud;
     $store->longitud = $data->longitud;
-  
+    $store->estado = $data->estado;
+    $store->contraseña = $data->contraseña;
     // create the store
     if($store->create()){
   
@@ -46,7 +51,7 @@ if(
         echo json_encode(array("message" => "Store was created."));
     }
   
-    // if unable to create the product, tell the user
+    // if unable to create the store, tell the user
     else{
   
         // set response code - 503 service unavailable
